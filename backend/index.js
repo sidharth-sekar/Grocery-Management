@@ -458,30 +458,6 @@ app.get('/employee-stats', async (req, res) => {
     }
 });
 
-// Search Employees Route
-app.get('/search-employees', async (req, res) => {
-    try {
-        const { query } = req.query;
-        
-        if (!query) {
-            return res.status(400).json({ success: false, message: "Search query is required" });
-        }
-        
-        const employees = await Employee.find({
-            $or: [
-                { name: { $regex: query, $options: 'i' } },
-                { position: { $regex: query, $options: 'i' } },
-                { department: { $regex: query, $options: 'i' } },
-                { email: { $regex: query, $options: 'i' } }
-            ]
-        });
-        
-        res.json(employees);
-    } catch (err) {
-        console.error("Error searching employees:", err);
-        res.status(500).json({ success: false, message: "Internal Server Error", error: err.message });
-    }
-});
 
 app.post('/analyze-sentiment', async (req, res) => {
   const { text } = req.body;
